@@ -6,8 +6,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/', views.index, name="index"),
     path('songs/', views.songs, name="songs"),
-    path('api/get-csrf-token/', views.getCSRF, name="getCSRF"),
-    path('api/songs/', views.getSongs, name="getSongs")
+    path('song-upload/', views.songUploadPage, name="songUploadPage"),
+    path('register/', views.register, name="register"),
+    path('login/', views.login, name="login"),
+    path('api/songs/', views.getSongs, name="getSongs"),
     
 
 ]

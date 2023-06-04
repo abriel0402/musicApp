@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 
 function SongUpload() {
-    const [csrfToken, setCsrfToken] = useState('')
+
     const [formData, setFormData] = useState({
         name: '',
         artist: '',
@@ -11,13 +11,7 @@ function SongUpload() {
 
     })
 
-    useEffect(() => {
-        axios.get('/api/get-csrf-token/').then((response) => {
-                setCsrfToken(response.data.csrfToken)
-            }).catch((e) => {
-                console.log(e)
-            })
-        }, [])
+    
 
     function handleFormSubmission(e) {
         e.preventDefault()
@@ -31,8 +25,8 @@ function SongUpload() {
         
         axios.post('/songs/', data).then((response) => {
             //console.log(response.data)
-        }).catch((e) => {
-            console.log(e)
+        }).catch((err) => {
+            console.log(err)
         })
 
 

@@ -7,7 +7,9 @@ function Home() {
     return (
         <>
         <Navbar />
-        <SongUpload />
+        <div>
+            Empty for now
+        </div>
         </>
     )
 }
