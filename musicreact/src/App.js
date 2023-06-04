@@ -2,15 +2,22 @@ import './App.css';
 import Home from './Home';
 import SongUpload from './SongUpload';
 import SongList from './SongList';
+import Songs from './Songs';
 
 function App() {
-  return (
-    <div className="App">
-      <Home />
-      <SongUpload />
-      <SongList />
-    </div>
-  );
+
+  let Component
+
+  switch (window.location.pathname) {
+    case "/index/":
+      Component = <Home />
+      break
+      case "/songs/":
+      Component = <Songs />
+      break
+  }
+
+  return Component
 }
 
 export default App;

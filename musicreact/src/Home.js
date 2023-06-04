@@ -1,9 +1,13 @@
+import Navbar from "./Navbar";
+import SongUpload from "./SongUpload";
+
 
 
 function Home() {
     return (
         <>
-        hello
+        <Navbar />
+        <SongUpload />
         </>
     )
 }

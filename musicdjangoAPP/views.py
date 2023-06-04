@@ -20,6 +20,7 @@ def songs(request):
         print(song.file)
     return render(request, 'index.html')
 
+
 def getCSRF(request):
     csrf_token = get_token(request)
     return JsonResponse({
