@@ -15,12 +15,22 @@ function SongList() {
         })
     }, [])
 
+    function playSong(song) {
+        const fileUrl = song.file;
+        let audio = new Audio(fileUrl);
+        audio.play();
+        console.log('playing');
+        console.log(fileUrl)
+        console.log(song)
+      }
+
     return (
         
         <div>
             {songs.map((song) => (
                 <div key={song.id}>
                 <h3>{song.name}</h3>
+                <button onClick={() => playSong(song)}>Play</button>
                 </div>
             ))}
         </div>
