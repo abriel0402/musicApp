@@ -9,7 +9,9 @@ def index(request):
 
 @csrf_exempt
 def songs(request):
+    
     if request.method == "POST":
+        print(request.FILES.get('file'))
         name = request.POST.get('name')
         artist = request.POST.get('artist')
         file = request.FILES.get('file')

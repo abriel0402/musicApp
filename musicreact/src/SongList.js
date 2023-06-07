@@ -4,38 +4,30 @@ import axios from 'axios'
 
 
 function SongList() {
-
-    const [songs, setSongs] = useState([])
-
+    const [songs, setSongs] = useState([]);
+  
     useEffect(() => {
-        axios.get('/api/songs/').then((response) => {
-            setSongs(response.data)
-        }).catch((e) => {
-            console.log(e)
+      axios.get('/api/songs/')
+        .then((response) => {
+          setSongs(response.data);
         })
-    }, [])
-
-    function playSong(song) {
-        const fileUrl = song.file;
-        let audio = new Audio(fileUrl);
-        audio.play();
-        console.log('playing');
-        console.log(fileUrl)
-        console.log(song)
-      }
-
+        .catch((error) => {
+          console.log(error);
+        });
+    }, []);
+  
+    
     return (
-        
-        <div>
-            {songs.map((song) => (
-                <div key={song.id}>
-                <h3>{song.name}</h3>
-                <button onClick={() => playSong(song)}>Play</button>
-                </div>
-            ))}
-        </div>
-    )
-}
+      <div>
+        {songs.map((song) => (
+          <div key={song.id}>
+            <h3>{song.name}</h3>
+            <audio controls src={`/media/${song.file}`}></audio>
+          </div>
+        ))}
+      </div>
+    );
+  }
 
 
 export default SongList

@@ -6,7 +6,7 @@ class Song(models.Model):
     likes = models.IntegerField()
     artist = models.CharField(max_length=25)
     name = models.CharField(max_length=25) 
-    file = models.FileField()
+    file = models.FileField(upload_to="songs/")
 
 
     def __str__(self):
