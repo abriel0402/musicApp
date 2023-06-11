@@ -47,7 +47,6 @@ def login(request):
         for user in users:
             if user.username == username and user.password == password:
                 print("login success")
-                loggedIn = True
                 return JsonResponse({"status": True})
     else:
         print("login failed")
@@ -58,3 +57,66 @@ def login(request):
 def getSongs(request):
     songs = Song.objects.all().values()
     return JsonResponse(list(songs), safe=False)
+
+def getPlaylists(request):
+    playlists = Playlist.objects.all().values()
+    return JsonResponse(list(playlists), safe=False)
+
+
+@csrf_exempt
+def playlists(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        playlist = Playlist(name=name)
+        playlist.save()
+        return redirect("/playlists/")
+    return render(request, "index.html")
+
+@csrf_exempt
+def getPlaylistByID(request, playlistID):
+    
+    playlist = Playlist.objects.get(id=playlistID)
+    playlistData = {
+        "id": playlist.id,
+        "name": playlist.name,
+    }
+
+    return JsonResponse({'playlist': playlistData}, content_type="application/json")
+
+@csrf_exempt
+def deleteSong(request):
+    if request.method == "POST":
+        songID = request.POST.get("songID")
+        print(songID)
+        song = Song.objects.get(id=songID)
+        song.delete()
+        newSongs = Song.objects.all().values()
+        return JsonResponse(list(newSongs), safe=False)
+    return render(request, "index.html")
+
+@csrf_exempt
+def fiveMostStreamed(request):
+    songs = list(Song.objects.all().values())
+    songs.sort(key = lambda song : song['plays'], reverse=True)
+    if len(songs) > 5:
+        songs = songs[:5]
+    return JsonResponse({'songs': songs}, safe=False)
+
+@csrf_exempt
+def fiveMostLiked(request):
+    songs = list(Song.objects.all().values())
+    songs.sort(key = lambda song : song['likes'], reverse=True)
+    if len(songs) > 5:
+        songs = songs[:5]
+    return JsonResponse({'songs': songs}, safe=False)
+
+@csrf_exempt
+def updatePlays(request):
+    if request.method == "POST":
+        songID = request.POST.get("songID")
+        song = Song.objects.get(id = songID)
+        song.plays += 1
+        print(song.plays)
+        song.save()
+        print(song.plays)
+    return JsonResponse({"songID": songID}, safe=False)

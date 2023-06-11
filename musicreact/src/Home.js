@@ -1,14 +1,16 @@
 import Navbar from "./Navbar";
-import SongUpload from "./SongUpload";
-
-
+import TopFiveStreamed from "./TopFiveStreamed";
+import TopFiveLiked from "./TopFiveLiked";
 
 function Home() {
     return (
         <>
         <Navbar />
         <div>
-            Empty for now
+            <TopFiveStreamed />
+        </div>
+        <div>
+            <TopFiveLiked />
         </div>
         </>
     )

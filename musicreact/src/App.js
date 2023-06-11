@@ -5,6 +5,7 @@ import SongUploadPage from './SongUploadPage';
 import RegisterPage from './RegisterPage';
 import LoginForm from './LoginForm';
 import { useState, useEffect } from 'react';
+import PlaylistsPage from './PlaylistsPage';
 
 function App() {
 
@@ -38,6 +39,10 @@ function App() {
       case "/songs/":
       Component = <Songs />
       break
+      case "/playlists/":
+        Component = <PlaylistsPage />
+        break
+      
   }
 
 

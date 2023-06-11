@@ -35,25 +35,68 @@ function SongUpload() {
     }));
   }
 
+  const containerStyles = {
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    alignItems: 'center', 
+  };
+
+  const formStyles = {
+    display: 'flex',
+    flexDirection: 'column',
+    maxWidth: '300px',
+    margin: '20px',
+  };
+
+  const inputStyles = {
+    marginBottom: '10px',
+    padding: '5px',
+    border: '1px solid #ccc',
+    borderRadius: '3px',
+  };
+
+  const buttonStyles = {
+    backgroundColor: '#3498db',
+    color: '#fff',
+    padding: '5px 10px',
+    borderRadius: '3px',
+    cursor: 'pointer',
+  };
+
   return (
-    <form onSubmit={handleFormSubmission} method="POST" encType="multipart/form-data">
-      <input
-        type="text"
-        value={formData.name}
-        name="name"
-        placeholder="Song Name"
-        onChange={handleInputChange}
-      />
-      <input
-        type="text"
-        value={formData.artist}
-        name="artist"
-        placeholder="Artist"
-        onChange={handleInputChange}
-      />
-      <input type="file" name="file" onChange={handleInputChange} />
-      <button type="submit">Upload</button>
-    </form>
+    <div style={containerStyles}>
+      <h1>Upload Song</h1> 
+      <div> 
+        <form
+          onSubmit={handleFormSubmission}
+          method="POST"
+          encType="multipart/form-data"
+          style={formStyles}
+        >
+          <input
+            type="text"
+            value={formData.name}
+            name="name"
+            placeholder="Song Name"
+            onChange={handleInputChange}
+            style={inputStyles}
+          />
+          <input
+            type="text"
+            value={formData.artist}
+            name="artist"
+            placeholder="Artist"
+            onChange={handleInputChange}
+            style={inputStyles}
+          />
+          <input type="file" name="file" onChange={handleInputChange} style={inputStyles} />
+          <button type="submit" style={buttonStyles}>
+            Upload
+          </button>
+        </form>
+      </div>
+    </div>
   );
 }
 
