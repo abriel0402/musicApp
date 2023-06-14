@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render, redirect
 from musicdjangoAPP.models import *
 from django.middleware.csrf import get_token
@@ -113,10 +114,10 @@ def fiveMostLiked(request):
 @csrf_exempt
 def updatePlays(request):
     if request.method == "POST":
-        songID = request.POST.get("songID")
-        song = Song.objects.get(id = songID)
+        data = json.loads(request.body)
+        songID = data["songID"]
+        song = Song.objects.get(id=songID)
         song.plays += 1
-        print(song.plays)
         song.save()
-        print(song.plays)
-    return JsonResponse({"songID": songID}, safe=False)
+        return JsonResponse({"success": 'success'}, safe=False)
+    return JsonResponse({"error": "error"})

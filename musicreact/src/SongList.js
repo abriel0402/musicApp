@@ -15,38 +15,20 @@ function SongList() {
       });
   }, []);
 
-  useEffect(() => {
-    function handlePlay(songID) {
-      axios
-        .post('/api/update-plays/', { songID })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-
-    const audioElements = document.querySelectorAll('audio');
-
-    audioElements.forEach((audio) => {
-      audio.addEventListener('play', () => {
-        const songID = parseInt(audio.dataset.songId);
-        handlePlay(songID);
+  function handlePlay(songID) {
+    console.log(songID)
+    axios
+      .post('/api/update-plays/', { "songID": songID })
+      .catch((error) => {
+        console.log(error);
       });
-    });
-
-    return () => {
-      audioElements.forEach((audio) => {
-        audio.removeEventListener('play', () => {
-          const songID = parseInt(audio.dataset.songId);
-          handlePlay(songID);
-        });
-      });
-    };
-  }, []);
+    console.log(songID)
+  }
 
   function deleteSong(song) {
     console.log(song.id);
     axios
-      .post('/api/delete/', { songID: song.id })
+      .post('/api/delete/', { "songID": song.id })
       .then((response) => {
         setSongs(response.data);
       })
@@ -94,7 +76,13 @@ function SongList() {
             <h3 style={songTitleStyles}>
               {song.name} - {song.artist}
             </h3>
-            <audio controls src={`/media/${song.file}`} style={audioStyles} data-song-id={song.id}></audio>
+            <audio
+              controls
+              src={`/media/${song.file}`}
+              style={audioStyles}
+              data-song-id={song.id}
+              onPlay={() => handlePlay(song.id)}
+            ></audio>
             <button onClick={() => deleteSong(song)} style={deleteButtonStyles}>
               Delete
             </button>

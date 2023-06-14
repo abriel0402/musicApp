@@ -10,7 +10,7 @@ class Song(models.Model):
 
 
     def __str__(self):
-        return self.name + " - " + self.artist
+        return str(self.id) + ": " + self.name + " - " + self.artist
     
 
 class User(models.Model):
