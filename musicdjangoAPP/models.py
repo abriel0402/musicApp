@@ -19,9 +19,10 @@ class User(models.Model):
     displayName = models.CharField(max_length=25)
     totalPlays = models.IntegerField()
     totalLikes = models.IntegerField()
+    #songsLiked = models.ManyToManyField('Song')
 
     def __str__(self):
-        return self.username
+        return str(self.id) + ": " + self.username
 
 class Playlist(models.Model):
     name = models.CharField(max_length=25)

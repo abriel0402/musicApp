@@ -19,6 +19,8 @@ urlpatterns = [
     path('api/five-most-streamed/', views.fiveMostStreamed, name="fiveMostStreamed"),
     path('api/five-most-liked/', views.fiveMostLiked, name="fiveMostLiked"),
     path('api/update-plays/', views.updatePlays, name="updatePlays"),
+    path('api/update-likes/', views.updateLikes, name="updateLikes"),
+    path('browse/', views.browse, name="browse"),
 
 
 

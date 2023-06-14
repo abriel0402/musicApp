@@ -1,4 +1,4 @@
-import json
+import json, random
 from django.shortcuts import render, redirect
 from musicdjangoAPP.models import *
 from django.middleware.csrf import get_token
@@ -87,8 +87,8 @@ def getPlaylistByID(request, playlistID):
 @csrf_exempt
 def deleteSong(request):
     if request.method == "POST":
-        songID = request.POST.get("songID")
-        print(songID)
+        data = json.loads(request.body)
+        songID = data["songID"]
         song = Song.objects.get(id=songID)
         song.delete()
         newSongs = Song.objects.all().values()
@@ -121,3 +121,31 @@ def updatePlays(request):
         song.save()
         return JsonResponse({"success": 'success'}, safe=False)
     return JsonResponse({"error": "error"})
+
+@csrf_exempt
+def updateLikes(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        songID = data["songID"]
+        toDo = data["toDo"]
+        song = Song.objects.get(id=songID)
+        if toDo == "increment":
+            song.likes += 1
+            song.save()
+            
+        else:
+            song.likes -= 1
+            song.save()
+        
+        return JsonResponse({"success": 'success'}, safe=False)
+    return JsonResponse({"error": "error"})
+
+def browse(request):
+    songsToReturn = []
+    allSongs = Song.objects.all().values()
+    allSongs = list(allSongs)
+    while len(songsToReturn) < 5:
+        num = random.randint(0, len(allSongs)-1)
+        if allSongs[num] not in songsToReturn:
+            songsToReturn.append(allSongs[num])
+    return JsonResponse({"songs": songsToReturn}, safe=False)

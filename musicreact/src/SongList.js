@@ -3,6 +3,7 @@ import axios from 'axios';
 
 function SongList() {
   const [songs, setSongs] = useState([]);
+  const [likedSongs, setLikedSongs] = useState([]);
 
   useEffect(() => {
     axios
@@ -16,19 +17,19 @@ function SongList() {
   }, []);
 
   function handlePlay(songID) {
-    console.log(songID)
+    console.log(songID);
     axios
-      .post('/api/update-plays/', { "songID": songID })
+      .post('/api/update-plays/', { songID: songID })
       .catch((error) => {
         console.log(error);
       });
-    console.log(songID)
+    console.log(songID);
   }
 
   function deleteSong(song) {
     console.log(song.id);
     axios
-      .post('/api/delete/', { "songID": song.id })
+      .post('/api/delete/', { songID: song.id })
       .then((response) => {
         setSongs(response.data);
       })
@@ -37,11 +38,32 @@ function SongList() {
       });
   }
 
+  function handleLike(songID) {
+    if (likedSongs.includes(songID)) {
+      setLikedSongs(likedSongs.filter((id) => id !== songID));
+      axios
+        .post('/api/update-likes/', { songID: songID, toDo: 'decrement' })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      setLikedSongs(likedSongs.concat(songID));
+      axios
+        .post('/api/update-likes/', { songID: songID, toDo: 'increment' })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }
+
   const songContainerStyles = {
     margin: '20px',
     padding: '10px',
     backgroundColor: '#f4f4f4',
     borderRadius: '5px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   };
 
   const songTitleStyles = {
@@ -59,6 +81,16 @@ function SongList() {
     padding: '5px 10px',
     borderRadius: '3px',
     cursor: 'pointer',
+    marginTop: '5px',
+  };
+
+  const likeButtonStyles = {
+    backgroundColor: '#3498db',
+    color: '#fff',
+    padding: '5px 10px',
+    borderRadius: '3px',
+    cursor: 'pointer',
+    marginTop: '5px',
   };
 
   const containerStyles = {
@@ -83,9 +115,14 @@ function SongList() {
               data-song-id={song.id}
               onPlay={() => handlePlay(song.id)}
             ></audio>
-            <button onClick={() => deleteSong(song)} style={deleteButtonStyles}>
-              Delete
-            </button>
+            <div>
+              <button onClick={() => handleLike(song.id)} style={likeButtonStyles}>
+                {likedSongs.includes(song.id) ? 'Unlike' : 'Like'}
+              </button>
+              <button onClick={() => deleteSong(song)} style={deleteButtonStyles}>
+                Delete
+              </button>
+            </div>
           </div>
         ))}
       </div>
