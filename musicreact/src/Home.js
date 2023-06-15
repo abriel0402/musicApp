@@ -2,6 +2,7 @@ import Navbar from "./Navbar";
 import TopFiveStreamed from "./TopFiveStreamed";
 import TopFiveLiked from "./TopFiveLiked";
 import Browse from "./Browse";
+import Search from "./Search";
 
 function Home() {
   return (
@@ -15,8 +16,13 @@ function Home() {
           <TopFiveLiked />
         </div>
       </div>
-      <div>
-        <Browse />
+      <div style={{ display: 'flex' }}>
+        <div style={{ flex: '1', marginRight: '10px' }}>
+          <Browse />
+        </div>
+        <div style={{ flex: '1', marginLeft: '10px' }}>
+          <Search />
+        </div>
       </div>
     </>
   );

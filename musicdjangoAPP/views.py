@@ -144,8 +144,26 @@ def browse(request):
     songsToReturn = []
     allSongs = Song.objects.all().values()
     allSongs = list(allSongs)
-    while len(songsToReturn) < 5:
-        num = random.randint(0, len(allSongs)-1)
-        if allSongs[num] not in songsToReturn:
-            songsToReturn.append(allSongs[num])
+    songsToShow = 5
+    if len(allSongs) > songsToShow:
+        while len(songsToReturn) < songsToShow:
+            num = random.randint(0, len(allSongs)-1)
+            if allSongs[num] not in songsToReturn:
+                songsToReturn.append(allSongs[num])
+    else:
+        return JsonResponse({"songs": allSongs}, safe=False)
+    return JsonResponse({"songs": songsToReturn}, safe=False)
+
+@csrf_exempt
+def search(request):
+    if request.method == "POST":
+        songsToReturn = []
+        data = json.loads(request.body)
+        text = data["text"]
+        allSongs = Song.objects.all().values()
+        allSongs = list(allSongs)
+
+        for song in allSongs:
+            if text.lower() in song['name'].lower() and text != "":
+                songsToReturn.append(song)
     return JsonResponse({"songs": songsToReturn}, safe=False)

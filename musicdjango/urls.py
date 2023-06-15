@@ -21,6 +21,7 @@ urlpatterns = [
     path('api/update-plays/', views.updatePlays, name="updatePlays"),
     path('api/update-likes/', views.updateLikes, name="updateLikes"),
     path('browse/', views.browse, name="browse"),
+    path('api/search/', views.search, name="search"),
 
 
 
