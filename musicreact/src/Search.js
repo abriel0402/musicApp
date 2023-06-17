@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import axios from "axios";
 
 function Search() {
   const [songs, setSongs] = useState([]);
+  const input = useRef(null);
 
-  function handleSearch(e) {
-    const text = e.target.value;
+  function handleSearch() {
+    const text = input.current.value;
     axios
       .post("/api/search/", { text })
       .then((response) => {
@@ -32,7 +33,12 @@ function Search() {
     flexDirection: "column",
     alignItems: "center",
   };
-  
+
+  const formContainerStyles = {
+    display: "flex",
+    alignItems: "baseline",
+  };
+
   const songContainerStyles = {
     margin: "20px",
     padding: "10px",
@@ -52,10 +58,34 @@ function Search() {
     marginBottom: "10px",
   };
 
+  const buttonStyles = {
+    padding: "8px 16px",
+    background: "#4caf50",
+    color: "white",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    fontSize: "16px",
+  };
+
+  const inputStyles = {
+    marginBottom: "10px",
+    padding: "8px",
+    border: "1px solid #ccc",
+    borderRadius: "5px",
+    width: "300px",
+    fontSize: "16px",
+  };
+
   return (
     <div style={containerStyles}>
       <h1>Search</h1>
-      <input onChange={handleSearch} type="text" placeholder="Search" />
+      <div style={formContainerStyles}>
+        <input ref={input} type="text" placeholder="Search" style={inputStyles} />
+        <button onClick={handleSearch} style={buttonStyles}>
+          Search
+        </button>
+      </div>
       {songs.map((song) => (
         <div key={song.id} style={songContainerStyles}>
           <h3 style={songTitleStyles}>

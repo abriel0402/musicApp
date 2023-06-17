@@ -164,6 +164,6 @@ def search(request):
         allSongs = list(allSongs)
 
         for song in allSongs:
-            if text.lower() in song['name'].lower() and text != "":
+            if (text.lower() in song['name'].lower() and text != "") or (text.lower() in song['artist'].lower() and text != ""):
                 songsToReturn.append(song)
     return JsonResponse({"songs": songsToReturn}, safe=False)

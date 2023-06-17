@@ -30,4 +30,4 @@ class Playlist(models.Model):
     #list of songs
 
     def __str__(self):
-        return self.name
+        return str(self.id) + ": " + self.name
