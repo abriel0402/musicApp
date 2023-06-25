@@ -63,6 +63,11 @@ function Navbar() {
           </a>
         </li>
         <li>
+          <a href="/profile/" style={linkStyles}>
+            Profile
+          </a>
+        </li>
+        <li>
           <a href="/songs/" onClick={signOut} style={linkStyles}>
             Logout
           </a>

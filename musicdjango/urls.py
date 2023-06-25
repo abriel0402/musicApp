@@ -22,6 +22,9 @@ urlpatterns = [
     path('api/update-likes/', views.updateLikes, name="updateLikes"),
     path('browse/', views.browse, name="browse"),
     path('api/search/', views.search, name="search"),
+    path('profile/', views.profile, name="profile"),
+    path('get-user-by-id/', views.getUserByID, name="getUserByID"),
+
 
 
 

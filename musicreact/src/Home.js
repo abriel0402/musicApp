@@ -3,6 +3,7 @@ import TopFiveStreamed from "./TopFiveStreamed";
 import TopFiveLiked from "./TopFiveLiked";
 import Browse from "./Browse";
 import Search from "./Search";
+import Profile from "./Profile";
 
 function Home() {
   return (

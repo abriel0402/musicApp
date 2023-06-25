@@ -7,6 +7,7 @@ import LoginForm from './LoginForm';
 import { useState, useEffect } from 'react';
 import PlaylistsPage from './PlaylistsPage';
 import { useAuthHeader } from 'react-auth-kit';
+import Profile from './Profile';
 
 function App() {
 
@@ -44,7 +45,9 @@ function App() {
       case "/playlists/":
         Component = <PlaylistsPage />
         break
-      
+      case "/profile/":
+        Component = <Profile />
+        break
   }
 
 

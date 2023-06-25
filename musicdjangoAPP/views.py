@@ -167,3 +167,19 @@ def search(request):
             if (text.lower() in song['name'].lower() and text != "") or (text.lower() in song['artist'].lower() and text != ""):
                 songsToReturn.append(song)
     return JsonResponse({"songs": songsToReturn}, safe=False)
+
+
+@csrf_exempt
+def profile(request):
+    return render(request, "index.html")
+
+@csrf_exempt
+def getUserByID(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        userID = data["id"]
+        print(userID)
+        user = User.objects.get(id=userID)
+
+        return JsonResponse({"username": user.username, "displayName": user.displayName}, safe=False)
+    
