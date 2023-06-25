@@ -7,6 +7,7 @@ class Song(models.Model):
     artist = models.CharField(max_length=25)
     name = models.CharField(max_length=25) 
     file = models.FileField(upload_to="songs/")
+    uploaderID = models.IntegerField()
 
 
     def __str__(self):
@@ -19,7 +20,7 @@ class User(models.Model):
     displayName = models.CharField(max_length=25)
     totalPlays = models.IntegerField()
     totalLikes = models.IntegerField()
-    #songsLiked = models.ManyToManyField('Song')
+    songsLiked = models.ManyToManyField('Song', blank=True)
 
     def __str__(self):
         return str(self.id) + ": " + self.username

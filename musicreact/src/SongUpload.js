@@ -1,12 +1,21 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-
+import { useAuthUser } from 'react-auth-kit';
+import { useEffect } from 'react';
 function SongUpload() {
+
+  const authUser = useAuthUser();
+  const id = authUser() ? authUser().id : null;
+
   const [formData, setFormData] = useState({
     name: '',
     artist: '',
     file: null,
+    uploaderID: id,
   });
+  
+
+
 
   function handleFormSubmission(e) {
     e.preventDefault();
@@ -15,6 +24,7 @@ function SongUpload() {
     data.append('name', formData.name);
     data.append('artist', formData.artist);
     data.append('file', formData.file);
+    data.append("uploaderID", id)
 
     axios
       .post('/songs/', data)

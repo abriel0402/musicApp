@@ -1,15 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useAuthUser } from 'react-auth-kit';
+
 
 function SongList() {
   const [songs, setSongs] = useState([]);
   const [likedSongs, setLikedSongs] = useState([]);
+  
+  const authUser = useAuthUser();
+  const id = authUser() ? authUser().id : null;
+
 
   useEffect(() => {
     axios
-      .get('/api/songs/')
+      .post('/api/songs/', {"uploaderID": id})
       .then((response) => {
-        setSongs(response.data);
+        setSongs(response.data.songs);
+        console.log(response.data.songs)
       })
       .catch((error) => {
         console.log(error);
@@ -29,7 +36,7 @@ function SongList() {
   function deleteSong(song) {
     console.log(song.id);
     axios
-      .post('/api/delete/', { songID: song.id })
+      .post('/api/delete/', { songID: song.id, uploaderID: id })
       .then((response) => {
         setSongs(response.data);
       })
@@ -42,14 +49,14 @@ function SongList() {
     if (likedSongs.includes(songID)) {
       setLikedSongs(likedSongs.filter((id) => id !== songID));
       axios
-        .post('/api/update-likes/', { songID: songID, toDo: 'decrement' })
+        .post('/api/update-likes/', { songID: songID, toDo: 'decrement' , userID: id})
         .catch((error) => {
           console.log(error);
         });
     } else {
       setLikedSongs(likedSongs.concat(songID));
       axios
-        .post('/api/update-likes/', { songID: songID, toDo: 'increment' })
+        .post('/api/update-likes/', { songID: songID, toDo: 'increment', userID: id })
         .catch((error) => {
           console.log(error);
         });

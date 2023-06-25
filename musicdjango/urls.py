@@ -24,7 +24,8 @@ urlpatterns = [
     path('api/search/', views.search, name="search"),
     path('profile/', views.profile, name="profile"),
     path('get-user-by-id/', views.getUserByID, name="getUserByID"),
-
+    path('api/get-liked-songs', views.getLikedSongs, name="getLikedSongs"),
+    
 
 
 

@@ -33,7 +33,7 @@ function Profile() {
         <div>
         <Navbar />
         <h1>{displayName}</h1>
-        <h4>{username}</h4>
+        <h4>@{username}</h4>
        </div>
     )
 }
