@@ -6,22 +6,24 @@ import RegisterPage from './RegisterPage';
 import LoginForm from './LoginForm';
 import { useState, useEffect } from 'react';
 import PlaylistsPage from './PlaylistsPage';
+import { useAuthHeader } from 'react-auth-kit';
 
 function App() {
 
 
   const [loggedIn, setLoggedIn] = useState(false)
+  const authHeader = useAuthHeader();
 
   function handleLoggedIn(status) {
     setLoggedIn(status)
   }
 
   useEffect(() => {
-    const authToken = localStorage.getItem('authToken')
-    if (authToken) {
-      setLoggedIn(true)
+    const token = authHeader(); // Call the authHeader function to get the token
+    if (token) {
+      setLoggedIn(true);
     }
-  }, [])
+  }, [authHeader])
 
   
   let Component

@@ -1,6 +1,13 @@
 import React from 'react';
+import { useSignOut } from 'react-auth-kit';
 
 function Navbar() {
+
+  const signOut = useSignOut()
+
+
+
+
   const navStyles = {
     backgroundColor: '#222',
     color: '#fff',
@@ -32,7 +39,7 @@ function Navbar() {
   return (
     <nav style={navStyles}>
       <a href="/" style={logoStyles}>
-        Site Name
+        Music App
       </a>
       <ul style={menuStyles}>
         <li>
@@ -56,7 +63,7 @@ function Navbar() {
           </a>
         </li>
         <li>
-          <a href="/songs/" onClick={(e) => localStorage.removeItem('authToken')} style={linkStyles}>
+          <a href="/songs/" onClick={signOut} style={linkStyles}>
             Logout
           </a>
         </li>

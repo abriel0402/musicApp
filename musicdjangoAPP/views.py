@@ -1,9 +1,9 @@
 import json, random
 from django.shortcuts import render, redirect
 from musicdjangoAPP.models import *
-from django.middleware.csrf import get_token
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+import jwt
 
 def index(request):
     return render(request, 'index.html')
@@ -47,8 +47,8 @@ def login(request):
         users = User.objects.all()
         for user in users:
             if user.username == username and user.password == password:
-                print("login success")
-                return JsonResponse({"status": True})
+                encodedJWT = jwt.encode({'username': username}, 'secret', algorithm="HS256" )
+                return JsonResponse({"token": encodedJWT, "username": username, "id": user.id})
     else:
         print("login failed")
 

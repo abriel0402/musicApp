@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-
+import { useSignIn } from "react-auth-kit";
 
 
 function LoginForm({ onLogin }) {
@@ -9,17 +9,8 @@ function LoginForm({ onLogin }) {
     password: "",
   });
 
-  function generateSessionToken() {
-    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    const tokenLength = 32;
-    let token = "";
+  const signIn = useSignIn()
 
-    for (let i = 0; i < tokenLength; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length);
-      token += characters.charAt(randomIndex);
-    }
-    return token;
-  }
 
   function handleFormSubmission(e) {
     e.preventDefault();
@@ -31,8 +22,17 @@ function LoginForm({ onLogin }) {
     axios
       .post("/login/", data)
       .then((response) => {
-        onLogin(response.data.status);
-        localStorage.setItem("authToken", generateSessionToken());
+        if (response.data.token != null){
+          onLogin(response.data.status);
+          signIn({
+            token: response.data.token,
+            expiresIn: 3600,
+            tokenType: "Bearer",
+            authState: { username: response.data.username, id: response.data.id}
+          })
+        }
+        console.log(response.data.token)
+
       })
       .catch((err) => {
         console.log(err);
