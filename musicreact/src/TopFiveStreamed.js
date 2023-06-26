@@ -20,31 +20,34 @@ function TopFiveStreamed() {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#f4f4f4",
+    backgroundColor: "#ffffff",
     padding: "20px",
     borderRadius: "5px",
-    margin: "0 auto",
-    textAlign: "center",
+    margin: "20px",
     maxWidth: "400px",
+    boxShadow: '0 2px 6px rgba(0, 0, 0, 0.35)',
+    margin: "20px auto",
+    textAlign: "center",
   };
   
-
   const headerStyles = {
     fontSize: "1.8rem",
     marginBottom: "20px",
+    color: "black",
   };
-
+  
   const songStyles = {
     fontSize: "1.2rem",
     marginBottom: "10px",
+    color: "#666666",
   };
 
   return (
     <div style={containerStyles}>
       <h2 style={headerStyles}>Top 5 Most Streamed Songs</h2>
-      {songs.map((song) => (
+      {songs.map((song, index) => (
         <div key={song.id} style={songStyles}>
-          {song.plays} plays: {song.name} - {song.artist}
+          {index + 1}. {song.name} - {song.artist} ({song.plays} plays)
         </div>
       ))}
     </div>

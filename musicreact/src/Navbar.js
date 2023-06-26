@@ -49,12 +49,7 @@ function Navbar() {
         </li>
         <li>
           <a href="/song-upload/" style={linkStyles}>
-            Song Upload
-          </a>
-        </li>
-        <li>
-          <a href="/songs/" style={linkStyles}>
-            Your Songs
+            Upload Song
           </a>
         </li>
         <li>

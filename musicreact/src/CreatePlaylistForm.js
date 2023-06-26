@@ -1,16 +1,26 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useAuthUser } from 'react-auth-kit';
+
 
 function CreatePlaylistForm() {
+  const authUser = useAuthUser();
+  const id = authUser() ? authUser().id : null;
+
+
   const [formData, setFormData] = useState({
     name: "",
+    creatorID: id,
   });
+
+  
 
   function handleFormSubmission(e) {
     e.preventDefault();
 
     const data = new FormData();
     data.append("name", formData.name);
+    data.append("creatorID", id)
 
     axios
       .post("/playlists/", data)

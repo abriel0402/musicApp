@@ -10,6 +10,18 @@ function SongList() {
   const authUser = useAuthUser();
   const id = authUser() ? authUser().id : null;
 
+  useEffect(() => { // gets the already-liked songs when the page loads
+
+    axios.post("/api/get-liked-songs", {id: id})
+    .then((response) => {
+      setLikedSongs(response.data.songs)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+
+  }, [])
+
 
   useEffect(() => {
     axios
@@ -63,53 +75,70 @@ function SongList() {
     }
   }
 
+  
   const songContainerStyles = {
     margin: '20px',
-    padding: '10px',
-    backgroundColor: '#f4f4f4',
-    borderRadius: '5px',
+    padding: '20px',
+    backgroundColor: '#fff',
+    borderRadius: '10px',
+    boxShadow: '0 2px 6px rgba(0, 0, 0, 0.35)',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
   };
-
+  
   const songTitleStyles = {
-    fontSize: '1.2rem',
-    marginBottom: '5px',
-  };
-
-  const audioStyles = {
+    fontSize: '1.4rem',
     marginBottom: '10px',
   };
-
+  
+  const audioStyles = {
+    marginBottom: '20px',
+  };
+  
   const deleteButtonStyles = {
     backgroundColor: '#e74c3c',
     color: '#fff',
-    padding: '5px 10px',
-    borderRadius: '3px',
+    padding: '8px 16px',
+    borderRadius: '5px',
     cursor: 'pointer',
-    marginTop: '5px',
+    marginTop: '10px',
+    border: 'none',
+    outline: 'none',
   };
-
+  
   const likeButtonStyles = {
     backgroundColor: '#3498db',
     color: '#fff',
-    padding: '5px 10px',
-    borderRadius: '3px',
+    padding: '8px 16px',
+    borderRadius: '5px',
     cursor: 'pointer',
-    marginTop: '5px',
+    marginTop: '10px',
+    border: 'none',
+    outline: 'none',
   };
-
+  
+  const addButtonStyles = {
+    backgroundColor: '#02a61d',
+    color: '#fff',
+    padding: '8px 16px',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    marginTop: '10px',
+    border: 'none',
+    outline: 'none',
+  };
+  
   const containerStyles = {
     display: 'flex',
     justifyContent: 'center',
     textAlign: 'center',
   };
-
+  
   return (
     <div style={containerStyles}>
       <div>
-        <h1>Songs</h1>
+        <h1 style={{ fontSize: '2rem', marginBottom: '20px' }}>Your Songs</h1>
         {songs.map((song) => (
           <div key={song.id} style={songContainerStyles}>
             <h3 style={songTitleStyles}>
@@ -123,12 +152,23 @@ function SongList() {
               onPlay={() => handlePlay(song.id)}
             ></audio>
             <div>
-              <button onClick={() => handleLike(song.id)} style={likeButtonStyles}>
-                {likedSongs.includes(song.id) ? 'Unlike' : 'Like'}
-              </button>
-              <button onClick={() => deleteSong(song)} style={deleteButtonStyles}>
-                Delete
-              </button>
+              <div style={{ marginBottom: '10px' }}>
+                <span style={{ fontWeight: 'bold', marginRight: '5px' }}>{song.plays}</span>
+                Plays
+              </div>
+              <div style={{ marginBottom: '10px' }}>
+                <span style={{ fontWeight: 'bold', marginRight: '5px' }}>{song.likes}</span>
+                Likes
+              </div>
+              <div>
+                <button style={addButtonStyles}>+</button>
+                <button onClick={() => handleLike(song.id)} style={likeButtonStyles}>
+                  {likedSongs.includes(song.id) ? 'Unlike' : 'Like'}
+                </button>
+                <button onClick={() => deleteSong(song)} style={deleteButtonStyles}>
+                  Delete
+                </button>
+              </div>
             </div>
           </div>
         ))}

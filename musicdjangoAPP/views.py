@@ -66,8 +66,11 @@ def getSongs(request):
         print(songs)
     return JsonResponse({"songs": list(songs)}, safe=False)
 
+@csrf_exempt
 def getPlaylists(request):
-    playlists = Playlist.objects.all().values()
+    data = json.loads(request.body)
+    userID = data["userID"]
+    playlists = Playlist.objects.filter(creatorID=userID).values()
     return JsonResponse(list(playlists), safe=False)
 
 
@@ -75,7 +78,8 @@ def getPlaylists(request):
 def playlists(request):
     if request.method == "POST":
         name = request.POST.get("name")
-        playlist = Playlist(name=name)
+        creatorID = request.POST.get("creatorID")
+        playlist = Playlist(name=name, creatorID=creatorID)
         playlist.save()
         return redirect("/playlists/")
     return render(request, "index.html")
@@ -84,10 +88,27 @@ def playlists(request):
 def getPlaylistByID(request, playlistID):
     
     playlist = Playlist.objects.get(id=playlistID)
+    songsList = []
+    
+    for song in playlist.songs.all():
+        
+        songData = {
+            "id": song.id,
+            "name": song.name,
+            "artist": song.artist,
+            "uploaderID": song.uploaderID,
+            "file": str(song.file),
+            "plays": song.plays,
+            "likes": song.likes,
+        }
+        songsList.append(songData)
     playlistData = {
         "id": playlist.id,
         "name": playlist.name,
+        "songs": songsList
+        
     }
+        
 
     return JsonResponse({'playlist': playlistData}, content_type="application/json")
 
@@ -128,6 +149,10 @@ def updatePlays(request):
         song = Song.objects.get(id=songID)
         song.plays += 1
         song.save()
+        userID = song.uploaderID
+        user = User.objects.get(id=userID)
+        user.totalPlays += 1
+        user.save()
         return JsonResponse({"success": 'success'}, safe=False)
     return JsonResponse({"error": "error"})
 
@@ -144,12 +169,15 @@ def updateLikes(request):
             song.likes += 1
             song.save()
             user.songsLiked.add(song)
+            user.totalLikes += 1
             user.save()
+
             
         else:
             song.likes -= 1
             song.save()
             user.songsLiked.remove(song)
+            user.totalLikes -= 1
             user.save()
         
         return JsonResponse({"success": 'success'}, safe=False)
@@ -177,9 +205,10 @@ def search(request):
         text = data["text"]
         allSongs = Song.objects.all().values()
         allSongs = list(allSongs)
+      
 
         for song in allSongs:
-            if (text.lower() in song['name'].lower() and text != "") or (text.lower() in song['artist'].lower() and text != ""):
+            if (text.lower() in song['name'].lower() and len(text) > 1) or (text.lower() in song['artist'].lower() and len(text) > 1):
                 songsToReturn.append(song)
     return JsonResponse({"songs": songsToReturn}, safe=False)
 
@@ -195,8 +224,8 @@ def getUserByID(request):
         userID = data["id"]
         print(userID)
         user = User.objects.get(id=userID)
-
-        return JsonResponse({"username": user.username, "displayName": user.displayName}, safe=False)
+        data = {"username": user.username, "displayName": user.displayName, "totalPlays": user.totalPlays, "totalLikes": user.totalLikes}
+        return JsonResponse(data, safe=False)
 
 @csrf_exempt
 def getLikedSongs(request):

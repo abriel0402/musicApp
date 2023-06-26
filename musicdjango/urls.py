@@ -7,7 +7,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/', views.index, name="index"),
-    path('api/playlistByID/<int:playlistID>/', views.getPlaylistByID, name='getPlaylistByID'),
+    path('playlists/api/playlistByID/<int:playlistID>/', views.getPlaylistByID, name='getPlaylistByID'),
     path('songs/', views.songs, name="songs"),
     path('song-upload/', views.songUploadPage, name="songUploadPage"),
     path('register/', views.register, name="register"),

@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Playlist from './Playlist';
+import { useAuthUser } from 'react-auth-kit';
+
 
 function Playlists() {
   const [playlists, setPlaylists] = useState([]);
   const [activePlaylistID, setActivePlaylistID] = useState(null);
 
+  const authUser = useAuthUser();
+  const id = authUser() ? authUser().id : null;
 
 
   useEffect(() => {
     axios
-      .get('/api/playlists/')
+      .post('/api/playlists/', {"userID": id})
       .then((response) => {
         setPlaylists(response.data);
       })
@@ -21,9 +25,12 @@ function Playlists() {
 
 
   function handlePlaylistClick(playlistID){
-    console.log('Active playlist:', playlistID);
-    setActivePlaylistID(playlistID)
+    console.log('Active playlist id:', playlistID);
+    activePlaylistID === null ? setActivePlaylistID(playlistID) : setActivePlaylistID(null)
+
   }
+
+  
 
   const containerStyles = {
     display: 'flex',
@@ -50,8 +57,10 @@ function Playlists() {
   };
 
   const headerStyles = {
-    textAlign: 'center', // Center the header
+    textAlign: 'center', 
   };
+
+  
 
   return (
     <div style={containerStyles}>
@@ -65,8 +74,11 @@ function Playlists() {
           </div>
         ))}
       </div>
+    
       {activePlaylistID && <Playlist playlistID={activePlaylistID} />}
+     
     </div>
+    
   );
 }
 
