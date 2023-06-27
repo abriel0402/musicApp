@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useAuthUser } from 'react-auth-kit';
-import { useEffect } from 'react';
+
+
+
 function SongUpload() {
 
   const authUser = useAuthUser();
@@ -12,6 +14,7 @@ function SongUpload() {
     artist: '',
     file: null,
     uploaderID: id,
+    image: null,
   });
   
 
@@ -25,6 +28,7 @@ function SongUpload() {
     data.append('artist', formData.artist);
     data.append('file', formData.file);
     data.append("uploaderID", id)
+    data.append("image", formData.image)
 
     axios
       .post('/songs/', data)
@@ -100,7 +104,10 @@ function SongUpload() {
             onChange={handleInputChange}
             style={inputStyles}
           />
-          <input type="file" name="file" onChange={handleInputChange} style={inputStyles} />
+          <label style={{color: "#5e5e5e"}} for="1">Audio File</label>
+          <input type="file" name="file" id="1"  className="hidden" onChange={handleInputChange} style={inputStyles} />
+          <label style={{color: "#5e5e5e"}}for="2">Image File</label>
+          <input type="file" name="image" id="2" classameN="hidden" onChange={handleInputChange} style={inputStyles} />
           <button type="submit" style={buttonStyles}>
             Upload
           </button>

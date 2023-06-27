@@ -16,8 +16,9 @@ def songs(request):
         name = request.POST.get('name')
         artist = request.POST.get('artist')
         file = request.FILES.get('file')
+        image = request.FILES.get('image')
         uploaderID = request.POST.get("uploaderID")
-        song = Song(name=name, artist=artist, plays=0, likes=0, file=file, uploaderID=uploaderID)
+        song = Song(name=name, artist=artist, plays=0, likes=0, file=file, uploaderID=uploaderID, image=image)
         song.save()
         print(song.name)
         print(song.artist)
@@ -100,6 +101,7 @@ def getPlaylistByID(request, playlistID):
             "file": str(song.file),
             "plays": song.plays,
             "likes": song.likes,
+            "image": str(song.image),
         }
         songsList.append(songData)
     playlistData = {

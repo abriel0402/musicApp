@@ -8,7 +8,7 @@ class Song(models.Model):
     name = models.CharField(max_length=25) 
     file = models.FileField(upload_to="songs/")
     uploaderID = models.IntegerField()
-    image = models.ImageField(upload_to="images/")
+    image = models.ImageField(blank=True, null=True, upload_to="images/")
 
 
     def __str__(self):
