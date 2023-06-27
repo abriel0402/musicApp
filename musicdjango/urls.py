@@ -25,6 +25,8 @@ urlpatterns = [
     path('profile/', views.profile, name="profile"),
     path('get-user-by-id/', views.getUserByID, name="getUserByID"),
     path('api/get-liked-songs', views.getLikedSongs, name="getLikedSongs"),
+    path('api/get-notifications/', views.getNotifications, name="getNotifications"),
+    path('api/clear-notifications/', views.clearNotifications, name="clearNotifications"),
     
 
 

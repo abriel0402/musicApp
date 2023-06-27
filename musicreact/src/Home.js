@@ -3,12 +3,28 @@ import TopFiveStreamed from "./TopFiveStreamed";
 import TopFiveLiked from "./TopFiveLiked";
 import Browse from "./Browse";
 import Search from "./Search";
-import Profile from "./Profile";
 
 function Home() {
+
+
+  const bannerStyles = {
+    backgroundColor: "#a742f5",
+    textAlign: "center",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "white",
+    height: "400px",
+    display: "flex",
+    fontSize: "2.4rem",
+
+  }
+
   return (
     <>
       <Navbar />
+      <div style={bannerStyles}>
+        <h1>Welcome to My Music App</h1>
+      </div>
       <div style={{ display: 'flex' }}>
         <div style={{ flex: '1', marginRight: '10px' }}>
           <TopFiveStreamed />

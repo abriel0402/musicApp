@@ -141,7 +141,7 @@ function SongList() {
         <h1 style={{ fontSize: '2rem', marginBottom: '20px' }}>Your Songs</h1>
         {songs.map((song) => (
           <div key={song.id} style={songContainerStyles}>
-            <img width="250" height="250" src={`/media/${song.image}`} alt="Cover"/>
+            <img style={{borderRadius: '10px'}} width="250" height="250" src={`/media/${song.image}`} alt="Cover"/>
             <h3 style={songTitleStyles}>
               {song.name} - {song.artist}
             </h3>

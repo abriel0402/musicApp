@@ -1,12 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSignOut } from 'react-auth-kit';
+import Inbox from './Inbox';
 
 function Navbar() {
-
-  const signOut = useSignOut()
-
-
-
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const signOut = useSignOut();
 
   const navStyles = {
     backgroundColor: '#222',
@@ -36,10 +34,27 @@ function Navbar() {
     fontSize: '1rem',
   };
 
+  const dropdownContainerStyles = {
+    position: 'relative',
+  };
+
+  const dropdownButtonStyles = {
+    ...linkStyles,
+    position: 'relative',
+  };
+
+  const spanStyles = {
+    color: "#a742f5",
+  }
+
+  const handleDropdownClick = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
   return (
     <nav style={navStyles}>
       <a href="/" style={logoStyles}>
-        Music App
+        Music<span style={spanStyles}>App</span>
       </a>
       <ul style={menuStyles}>
         <li>
@@ -61,6 +76,16 @@ function Navbar() {
           <a href="/profile/" style={linkStyles}>
             Profile
           </a>
+        </li>
+        <li>
+          <div style={dropdownContainerStyles}>
+            <a href="#" onClick={handleDropdownClick} style={dropdownButtonStyles}>
+              Inbox
+            </a>
+            {isDropdownOpen && (
+              <Inbox isDropdownOpen={isDropdownOpen} />
+            )}
+          </div>
         </li>
         <li>
           <a href="/songs/" onClick={signOut} style={linkStyles}>

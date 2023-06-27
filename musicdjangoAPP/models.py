@@ -22,6 +22,7 @@ class User(models.Model):
     totalPlays = models.IntegerField()
     totalLikes = models.IntegerField()
     songsLiked = models.ManyToManyField('Song', blank=True)
+    banner = models.ImageField(blank=True, null=True, default=None, upload_to="images/")
     
 
     def __str__(self):
@@ -34,3 +35,11 @@ class Playlist(models.Model):
 
     def __str__(self):
         return str(self.id) + ": " + self.name
+    
+class Notification(models.Model):
+    fromID = models.IntegerField()
+    toID = models.IntegerField()
+    content = models.CharField(max_length=25)
+
+    def __str__(self):
+        return str(self.id) + ": From " + str(self.fromID) + " to " + str(self.toID)

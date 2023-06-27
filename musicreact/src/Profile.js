@@ -10,6 +10,7 @@ function Profile() {
   const [displayName, setDisplayName] = useState(null);
   const [totalPlays, setTotalPlays] = useState(null);
   const [totalLikes, setTotalLikes] = useState(null);
+  const [banner, setBanner] = useState(null);
 
   const id = authUser() ? authUser().id : null;
 
@@ -21,63 +22,39 @@ function Profile() {
         setDisplayName(response.data.displayName);
         setTotalPlays(response.data.totalPlays);
         setTotalLikes(response.data.totalLikes);
+        setBanner(response.data.banner);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
 
-  const containerStyles = {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    textAlign: 'center',
-    margin: '20px',
-    paddingTop: '10px',
-    paddingBottom: '10px',
-    marginBottom: '10px',
+  const bannerStyles = {
+    justifyContent: "center",
+    alignItems: "center",
+    color: "white",
+    backgroundColor: "#a742f5",
+    height: "400px",
+    display: "flex",
+    flexDirection: "column",
+    gap: "20px",
+    fontSize: "1.6rem",
+    padding: "20px",
   };
 
-  const panelStyles = {
-    backgroundColor: '#fff',
-    borderRadius: '10px',
-    boxShadow: '0 2px 6px rgba(0, 0, 0, 0.35)',
-    padding: '20px',
-    marginBottom: '20px',
-  };
-
-  const headerStyles = {
-    fontSize: '2rem',
-    marginBottom: '5px',
-    color: '#000',
-  };
-
-  const usernameStyles = {
-    fontSize: '1.5rem',
-    marginBottom: '15px',
-    color: '#000',
-  };
-
-  const statsStyles = {
-    marginBottom: '20px',
-  };
-
-  const statStyles = {
-    fontSize: '1rem',
-    color: '#000',
-  };
+  
 
   return (
     <div>
-      <Navbar />
-      <div style={containerStyles}>
-        <div style={panelStyles}>
-          <h1 style={headerStyles}>{displayName}</h1>
-          <h3 style={usernameStyles}>@{username}</h3>
-          <div style={statsStyles}>
-            <p style={statStyles}>{totalPlays} total plays</p>
-            <p style={statStyles}>{totalLikes} total likes</p>
-          </div>
+      <Navbar /> 
+      
+      <div style={bannerStyles}>
+      
+       <h1 style={{ fontSize: "2.4rem" }}>{displayName}</h1>
+        <h3 style={{ fontSize: "1.8rem" }}>@{username}</h3>
+        <div>
+          <p>{totalPlays} total plays</p>
+          <p>{totalLikes} total likes</p>
         </div>
       </div>
       <SongList />

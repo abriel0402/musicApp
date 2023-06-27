@@ -34,9 +34,10 @@ def register(request):
         displayName = request.POST.get('displayName')
         username = request.POST.get('username')
         password = request.POST.get('password')
-        user = User(displayName=displayName, username=username, password=password, totalLikes=0, totalPlays=0)
-        user.save()
-        print(user.displayName)
+        if len(displayName) > 0 and len(username) > 0 and len(password) > 0:
+            user = User(displayName=displayName, username=username, password=password, totalLikes=0, totalPlays=0)
+            user.save()
+            print(user.displayName)
     
     return render(request, 'index.html')
 
@@ -167,13 +168,18 @@ def updateLikes(request):
         toDo = data["toDo"]
         user = User.objects.get(id=userID)
         song = Song.objects.get(id=songID)
+        uploader = User.objects.get(id=song.uploaderID)
+
         if toDo == "increment":
             song.likes += 1
             song.save()
             user.songsLiked.add(song)
             user.totalLikes += 1
             user.save()
-
+            if uploader != user:
+                content = user.username + ' liked your song "' + song.name + '"'
+                notification = Notification(fromID=userID, toID=uploader.id, content=content)
+                notification.save()
             
         else:
             song.likes -= 1
@@ -226,7 +232,14 @@ def getUserByID(request):
         userID = data["id"]
         print(userID)
         user = User.objects.get(id=userID)
-        data = {"username": user.username, "displayName": user.displayName, "totalPlays": user.totalPlays, "totalLikes": user.totalLikes}
+        data = {
+            "username": user.username,
+            "displayName": user.displayName,
+            "totalPlays": user.totalPlays,
+            "totalLikes": user.totalLikes,
+            "banner": str(user.banner),
+            }
+        
         return JsonResponse(data, safe=False)
 
 @csrf_exempt
@@ -238,3 +251,30 @@ def getLikedSongs(request):
         songs = list(user.songsLiked.values_list('id', flat=True))
         
     return JsonResponse({"songs": songs}, safe=False)
+
+@csrf_exempt
+def getNotifications(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        userID = data["id"]
+        notifications = list(Notification.objects.filter(toID=userID))
+        newList = []
+        for noti in notifications:
+            notification = {
+                "fromID": noti.fromID,
+                "toID": noti.toID,
+                "content": noti.content,
+            }
+            newList.append(notification)
+
+        return JsonResponse({"notifications": newList}, safe=False)
+    
+@csrf_exempt
+def clearNotifications(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        userID = data["id"]
+        notifications = list(Notification.objects.filter(toID=userID))
+        for noti in notifications:
+            noti.delete()
+        return JsonResponse({"message": "cleared"}, safe=False)
