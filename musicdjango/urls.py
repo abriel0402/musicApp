@@ -27,6 +27,7 @@ urlpatterns = [
     path('api/get-liked-songs', views.getLikedSongs, name="getLikedSongs"),
     path('api/get-notifications/', views.getNotifications, name="getNotifications"),
     path('api/clear-notifications/', views.clearNotifications, name="clearNotifications"),
+    path('api/add-song-to-playlist/', views.addSongToPlaylist, name="addSongToPlaylist"),
     
 
 

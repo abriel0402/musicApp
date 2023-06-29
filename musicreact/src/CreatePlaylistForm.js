@@ -42,7 +42,6 @@ function CreatePlaylistForm() {
   }
 
   const formStyles = {
-    margin: "20px",
     padding: "10px",
     backgroundColor: "#f4f4f4",
     borderRadius: "5px",
@@ -60,7 +59,7 @@ function CreatePlaylistForm() {
 
   const buttonStyles = {
     padding: "8px 16px",
-    background: "#2980b9",
+    background: "#a742f5",
     color: "white",
     border: "none",
     borderRadius: "5px",
@@ -69,7 +68,7 @@ function CreatePlaylistForm() {
   };
 
   return (
-    <div>
+    <div style={{marginTop: "73.33px"}}>
       <form onSubmit={handleFormSubmission} style={formStyles}>
         <h3>Create Playlist</h3>
         <input

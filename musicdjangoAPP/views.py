@@ -5,6 +5,11 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import jwt
 
+
+BROWSE_SONGS = 10 # how many songs to show in 'browse'
+
+
+
 def index(request):
     return render(request, 'index.html')
 
@@ -195,9 +200,9 @@ def browse(request):
     songsToReturn = []
     allSongs = Song.objects.all().values()
     allSongs = list(allSongs)
-    songsToShow = 5
-    if len(allSongs) > songsToShow:
-        while len(songsToReturn) < songsToShow:
+    
+    if len(allSongs) > BROWSE_SONGS:
+        while len(songsToReturn) < BROWSE_SONGS:
             num = random.randint(0, len(allSongs)-1)
             if allSongs[num] not in songsToReturn:
                 songsToReturn.append(allSongs[num])
@@ -278,3 +283,19 @@ def clearNotifications(request):
         for noti in notifications:
             noti.delete()
         return JsonResponse({"message": "cleared"}, safe=False)
+    
+
+@csrf_exempt
+def addSongToPlaylist(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        songID = data["songID"]
+        playlistID = data["playlistID"]
+        song = Song.objects.get(id=songID)
+        playlist = Playlist.objects.get(id=playlistID)
+        if song not in playlist.songs.all():
+            playlist.songs.add(song)
+            playlist.save()
+            return JsonResponse({"message": "success"}, safe=False)
+    return JsonResponse({"hi": "hi"}, safe=False)
+        

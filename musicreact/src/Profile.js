@@ -40,6 +40,7 @@ function Profile() {
     gap: "20px",
     fontSize: "1.6rem",
     padding: "20px",
+    marginTop: "73.33px", // to give space for navbar
   };
 
   

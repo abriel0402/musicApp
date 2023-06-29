@@ -13,6 +13,12 @@ function Navbar() {
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: '10px',
+    position: 'fixed', 
+    top: 0, 
+    left: 0, 
+    right: 0, 
+    zIndex: 9999, 
+    
   };
 
   const logoStyles = {
@@ -47,7 +53,8 @@ function Navbar() {
     color: "#a742f5",
   }
 
-  const handleDropdownClick = () => {
+  const handleDropdownClick = (e) => {
+    e.preventDefault()
     setIsDropdownOpen(!isDropdownOpen);
   };
 

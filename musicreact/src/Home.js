@@ -16,8 +16,11 @@ function Home() {
     height: "400px",
     display: "flex",
     fontSize: "2.4rem",
+    marginTop: "73.33px", // to give space for navbar
 
   }
+
+ 
 
   return (
     <>
@@ -25,7 +28,12 @@ function Home() {
       <div style={bannerStyles}>
         <h1>Welcome to My Music App</h1>
       </div>
-      <div style={{ display: 'flex' }}>
+      
+      <div >
+        <div >
+          <Browse />
+        </div>
+        <div style={{ display: 'flex' }}>
         <div style={{ flex: '1', marginRight: '10px' }}>
           <TopFiveStreamed />
         </div>
@@ -33,13 +41,9 @@ function Home() {
           <TopFiveLiked />
         </div>
       </div>
-      <div style={{ display: 'flex' }}>
-        <div style={{ flex: '1', marginRight: '10px' }}>
-          <Browse />
-        </div>
         <div style={{ flex: '1', marginLeft: '10px' }}>
           <Search />
-        </div>
+         </div>
       </div>
     </>
   );

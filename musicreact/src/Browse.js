@@ -6,6 +6,9 @@ import { useAuthUser } from 'react-auth-kit';
 function Browse() {
   const [songs, setSongs] = useState([]);
   const [likedSongs, setLikedSongs] = useState([]);
+  const [showMenu, setShowMenu] = useState(false);
+  const [playlists, setPlaylists] = useState([])
+  const [selectedSongID, setSelectedSongID] = useState(null)
 
   const authUser = useAuthUser();
   const id = authUser() ? authUser().id : null;
@@ -55,27 +58,34 @@ function Browse() {
     }
   }
 
+  
+
   const songContainerStyles = {
-    margin: '20px',
+    margin: '1px',
     padding: '20px',
     backgroundColor: '#fff',
     borderRadius: '10px',
     boxShadow: '0 2px 6px rgba(0, 0, 0, 0.35)',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    display: 'flex', 
+    flexDirection: 'column', 
+    justifyContent: 'center', 
+    textAlign: "center",
+    alignItems: 'center', 
+    width: '300px',
+    transform: 'scale(0.7)', 
   };
-  
+
   const songTitleStyles = {
     fontSize: '1.4rem',
     marginBottom: '10px',
   };
-  
+
   const audioStyles = {
     marginBottom: '20px',
   };
-  
-  
+
+
+
   const likeButtonStyles = {
     backgroundColor: '#3498db',
     color: '#fff',
@@ -86,7 +96,7 @@ function Browse() {
     border: 'none',
     outline: 'none',
   };
-  
+
   const addButtonStyles = {
     backgroundColor: '#02a61d',
     color: '#fff',
@@ -97,18 +107,23 @@ function Browse() {
     border: 'none',
     outline: 'none',
   };
-  
+
   const containerStyles = {
     display: 'flex',
-    justifyContent: 'center',
-    textAlign: 'center',
+    overflowX: 'auto', 
   };
+
+  const headerStyles = {
+    fontSize: '2rem',
+    marginBottom: "20px",
+    textAlign: "center",
+  }
   
 
   return (
-    <div style={containerStyles}>
       <div>
-        <h1 style={{ fontSize: '2rem', marginBottom: '20px' }}>Browse Songs</h1>
+        <h1 style={headerStyles}>Browse Songs</h1>
+        <div style={containerStyles}>
         {songs.map((song) => (
           <div key={song.id} style={songContainerStyles}>
             <img style={{borderRadius: "10px"}}width="250" height="250" src={`/media/${song.image}`} alt="Cover"/>
@@ -126,11 +141,10 @@ function Browse() {
               <div style={{ marginBottom: '10px' }}>
                 <span style={{ fontWeight: 'bold', marginRight: '5px' }}>{song.plays}</span>
                 Plays
-              </div>
-              <div style={{ marginBottom: '10px' }}>
-                <span style={{ fontWeight: 'bold', marginRight: '5px' }}>{song.likes}</span>
+                <span style={{ marginLeft: "15px", fontWeight: 'bold', marginRight: '5px' }}>{song.likes}</span>
                 Likes
               </div>
+              
               <div>
               <button style={addButtonStyles}>+</button>
                 <button onClick={() => handleLike(song.id)} style={likeButtonStyles}>
@@ -141,8 +155,9 @@ function Browse() {
             </div>
           </div>
         ))}
+        </div>
       </div>
-    </div>
+
   );
 }
 

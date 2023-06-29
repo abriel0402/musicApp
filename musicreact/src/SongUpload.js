@@ -54,6 +54,7 @@ function SongUpload() {
     justifyContent: 'center',
     flexDirection: 'column',
     alignItems: 'center', 
+    marginTop: "73.33px", // to give space for navbar
   };
 
   const formStyles = {
@@ -70,12 +71,16 @@ function SongUpload() {
     borderRadius: '3px',
   };
 
+  
+
   const buttonStyles = {
-    backgroundColor: '#3498db',
-    color: '#fff',
-    padding: '5px 10px',
-    borderRadius: '3px',
-    cursor: 'pointer',
+    padding: "8px 16px",
+    background: "#a742f5",
+    color: "white",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    fontSize: "16px",
   };
 
   return (
