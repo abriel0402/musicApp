@@ -58,6 +58,39 @@ function Browse() {
     }
   }
 
+  useEffect(() => { // gets playlists when user click on add to playlist
+    axios
+      .post('/api/playlists/', { userID: id })
+      .then((response) => {
+        setPlaylists(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [showMenu]);
+  
+
+
+  function handleAddButtonClick(songID) {
+    setSelectedSongID(songID);
+    setShowMenu(true);
+  };
+
+  function handleCloseMenu() {
+    setShowMenu(false);
+  };
+
+  function handleAddSongToPlaylist(playlistID) {
+    setShowMenu(false);
+    axios.post("/api/add-song-to-playlist/", { songID: selectedSongID, playlistID: playlistID })
+      .then((response) => {
+        console.log("added to playlist");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   
 
   const songContainerStyles = {
@@ -84,6 +117,18 @@ function Browse() {
     marginBottom: '20px',
   };
 
+  const menuStyles = {
+    position: 'fixed',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    padding: '20px',
+    backgroundColor: '#fff',
+    borderRadius: '10px',
+    boxShadow: '0 2px 6px rgba(0, 0, 0, 0.1)',
+    textAlign: "center",
+    zIndex: '9999',
+  };
 
 
   const likeButtonStyles = {
@@ -118,47 +163,70 @@ function Browse() {
     marginBottom: "20px",
     textAlign: "center",
   }
+  const closeButtonStyles = {
+    color: "white",
+    backgroundColor: "#a742f5",
+    padding: '8px 16px',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    marginTop: '10px',
+    border: 'none',
+    outline: 'none',
+  }
+  
   
 
   return (
-      <div>
-        <h1 style={headerStyles}>Browse Songs</h1>
-        <div style={containerStyles}>
-        {songs.map((song) => (
-          <div key={song.id} style={songContainerStyles}>
-            <img style={{borderRadius: "10px"}}width="250" height="250" src={`/media/${song.image}`} alt="Cover"/>
-            <h3 style={songTitleStyles}>
-              {song.name} - {song.artist}
-              </h3>
-              <audio
-              controls
-              src={`/media/${song.file}`}
-              style={audioStyles}
-              data-song-id={song.id}
-              onPlay={() => handlePlay(song.id)}
-            ></audio>
+    <div>
+    <h1 style={headerStyles}>Browse</h1>
+    <div style={containerStyles}>
+      {songs.map((song) => (
+        <div key={song.id} style={songContainerStyles}>
+          <img style={{ borderRadius: '10px' }} width="250" height="250" src={`/media/${song.image}`} alt="Cover" />
+          <h3 style={songTitleStyles}>
+            {song.name} - {song.artist}
+          </h3>
+          
+          <audio
+            controls
+            src={`/media/${song.file}`}
+            style={audioStyles}
+            data-song-id={song.id}
+            onPlay={() => handlePlay(song.id)}
+          ></audio>
+          <div>
+          <div style={{ marginBottom: '10px' }}>
+              <span style={{ fontWeight: 'bold', marginRight: '5px' }}>{song.plays}</span>
+              Plays
+              <span style={{ marginLeft: "15px", fontWeight: 'bold', marginRight: '5px' }}>{song.likes}</span>
+              Likes
+            </div>
             <div>
-              <div style={{ marginBottom: '10px' }}>
-                <span style={{ fontWeight: 'bold', marginRight: '5px' }}>{song.plays}</span>
-                Plays
-                <span style={{ marginLeft: "15px", fontWeight: 'bold', marginRight: '5px' }}>{song.likes}</span>
-                Likes
-              </div>
+              <button onClick={() => handleAddButtonClick(song.id)} style={addButtonStyles}>+</button>
               
-              <div>
-              <button style={addButtonStyles}>+</button>
-                <button onClick={() => handleLike(song.id)} style={likeButtonStyles}>
-                  {likedSongs.includes(song.id) ? 'Unlike' : 'Like'}
-                </button>
-                
-              </div>
+              <button onClick={() => handleLike(song.id)} style={likeButtonStyles}>
+                {likedSongs.includes(song.id) ? 'Unlike' : 'Like'}
+              </button>
+              
             </div>
           </div>
-        ))}
         </div>
+      ))}
+      {showMenu && (
+        <div style={menuStyles}>
+          
+        <h2>Add to Playlist</h2>
+          {playlists.length > 0 && playlists.map((playlist) => (
+            <h3 key={playlist.id} onClick={() => handleAddSongToPlaylist(playlist.id)}style={{cursor: "pointer", fontWeight: "normal"}}>
+            {playlist.name}
+            </h3>
+          ))}
+            <button style={closeButtonStyles} onClick={handleCloseMenu}>Close</button>
       </div>
-
-  );
+    )}
+    </div>
+  </div>
+);
 }
 
 export default Browse;

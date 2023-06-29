@@ -114,6 +114,7 @@ function SongList() {
     backgroundColor: '#fff',
     borderRadius: '10px',
     boxShadow: '0 2px 6px rgba(0, 0, 0, 0.1)',
+    textAlign: "center",
     zIndex: '9999',
   };
 
@@ -225,18 +226,7 @@ function SongList() {
               </div>
               <div>
                 <button onClick={() => handleAddButtonClick(song.id)} style={addButtonStyles}>+</button>
-                {showMenu && (
-          <div style={menuStyles}>
-            {/* Menu content goes here */}
-          <h2>Add to Playlist</h2>
-            {playlists.length > 0 && playlists.map((playlist) => (
-              <h3 key={playlist.id} onClick={() => handleAddSongToPlaylist(playlist.id)}style={{cursor: "pointer", fontWeight: "normal"}}>
-              {playlist.name}
-              </h3>
-            ))}
-              <button style={closeButtonStyles}onClick={handleCloseMenu}>Close</button>
-        </div>
-      )}
+                
                 <button onClick={() => handleLike(song.id)} style={likeButtonStyles}>
                   {likedSongs.includes(song.id) ? 'Unlike' : 'Like'}
                 </button>
@@ -247,6 +237,18 @@ function SongList() {
             </div>
           </div>
         ))}
+        {showMenu && (
+          <div style={menuStyles}>
+            
+          <h2>Add to Playlist</h2>
+            {playlists.length > 0 && playlists.map((playlist) => (
+              <h3 key={playlist.id} onClick={() => handleAddSongToPlaylist(playlist.id)}style={{cursor: "pointer", fontWeight: "normal"}}>
+              {playlist.name}
+              </h3>
+            ))}
+              <button style={closeButtonStyles} onClick={handleCloseMenu}>Close</button>
+        </div>
+      )}
       </div>
     </div>
   );
