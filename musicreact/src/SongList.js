@@ -113,7 +113,7 @@ function SongList() {
     padding: '20px',
     backgroundColor: '#fff',
     borderRadius: '10px',
-    boxShadow: '0 2px 6px rgba(0, 0, 0, 0.1)',
+    boxShadow: '0 2px 6px rgba(0, 0, 0, 0.25)',
     textAlign: "center",
     zIndex: '9999',
   };

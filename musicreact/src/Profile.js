@@ -34,33 +34,55 @@ function Profile() {
     alignItems: "center",
     color: "white",
     backgroundColor: "#a742f5",
-    height: "400px",
+    height: "200px",
     display: "flex",
     flexDirection: "column",
-    gap: "20px",
-    fontSize: "1.6rem",
-    padding: "20px",
+    gap: "10px",
+    fontSize: "1.4rem",
     marginTop: "73.33px", // to give space for navbar
+    textAlign: "center",
   };
-
   
-
+  const headingStyles = {
+    fontSize: "2.4rem",
+    marginBottom: "5px", 
+  };
+  
+  const subheadingStyles = {
+    fontSize: "1.8rem",
+    marginBottom: "15px", 
+  };
+  
+  const dataContainerStyles = {
+    display: "flex",
+    justifyContent: "center",
+    paddingBottom: "30px",
+  };
+  
+  const dataStyles = {
+    margin: "0 10px", 
+  };
+  
+  const profileContainerStyles = {
+    marginTop: "20px", 
+  };
+  
   return (
-    <div>
-      <Navbar /> 
-      
+    <div style={profileContainerStyles}>
+      <Navbar />
+  
       <div style={bannerStyles}>
-      
-       <h1 style={{ fontSize: "2.4rem" }}>{displayName}</h1>
-        <h3 style={{ fontSize: "1.8rem" }}>@{username}</h3>
-        <div>
-          <p>{totalPlays} total plays</p>
-          <p>{totalLikes} total likes</p>
+        <h1 style={headingStyles}>{displayName}</h1>
+        <h3 style={subheadingStyles}>@{username}</h3>
+        <div style={dataContainerStyles}>
+          <p style={dataStyles}>{totalPlays} total plays</p>
+          <p style={dataStyles}>{totalLikes} total likes</p>
         </div>
       </div>
       <SongList />
     </div>
   );
+  
 }
 
 export default Profile;

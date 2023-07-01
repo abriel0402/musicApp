@@ -13,12 +13,13 @@ function Home() {
     alignItems: "center",
     justifyContent: "center",
     color: "white",
-    height: "400px",
+    height: "200px",
     display: "flex",
-    fontSize: "2.4rem",
+    fontSize: "1.35rem", // header size
     marginTop: "73.33px", // to give space for navbar
-
+    
   }
+
 
  
 
@@ -41,9 +42,7 @@ function Home() {
           <TopFiveLiked />
         </div>
       </div>
-        <div style={{ flex: '1', marginLeft: '10px' }}>
-          <Search />
-         </div>
+        
       </div>
     </>
   );

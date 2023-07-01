@@ -125,7 +125,7 @@ function Browse() {
     padding: '20px',
     backgroundColor: '#fff',
     borderRadius: '10px',
-    boxShadow: '0 2px 6px rgba(0, 0, 0, 0.1)',
+    boxShadow: '0 2px 6px rgba(0, 0, 0, 0.25)',
     textAlign: "center",
     zIndex: '9999',
   };
@@ -160,8 +160,9 @@ function Browse() {
 
   const headerStyles = {
     fontSize: '2rem',
-    marginBottom: "20px",
     textAlign: "center",
+    justifyContent: "center",
+    
   }
   const closeButtonStyles = {
     color: "white",

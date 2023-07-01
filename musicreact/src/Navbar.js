@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useSignOut } from 'react-auth-kit';
 import Inbox from './Inbox';
+import Search from './Search';
 
 function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -13,12 +14,11 @@ function Navbar() {
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: '10px',
-    position: 'fixed', 
-    top: 0, 
-    left: 0, 
-    right: 0, 
-    zIndex: 9999, 
-    
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 9999,
   };
 
   const logoStyles = {
@@ -51,11 +51,16 @@ function Navbar() {
 
   const spanStyles = {
     color: "#a742f5",
-  }
+  };
 
   const handleDropdownClick = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const searchContainerStyles = {
+    display: 'flex',
+    alignItems: 'center',
   };
 
   return (
@@ -63,6 +68,9 @@ function Navbar() {
       <a href="/" style={logoStyles}>
         Music<span style={spanStyles}>App</span>
       </a>
+      <div style={searchContainerStyles}>
+        <Search />
+      </div>
       <ul style={menuStyles}>
         <li>
           <a href="/index/" style={linkStyles}>
@@ -89,9 +97,7 @@ function Navbar() {
             <a href="#" onClick={handleDropdownClick} style={dropdownButtonStyles}>
               Inbox
             </a>
-            {isDropdownOpen && (
-              <Inbox isDropdownOpen={isDropdownOpen} />
-            )}
+            {isDropdownOpen && <Inbox isDropdownOpen={isDropdownOpen} />}
           </div>
         </li>
         <li>

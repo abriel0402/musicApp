@@ -59,10 +59,17 @@ function Playlist({ playlistID }) {
     }
   }
 
+  
+  
+
   const containerStyles = {
     display: 'flex',
-    justifyContent: 'center',
-    textAlign: 'center',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    overflowX: 'auto',
+    padding: '20px',
+    whiteSpace: 'nowrap', 
+    transform: 'scale(0.7)', 
   };
 
   const likeButtonStyles = {
@@ -98,39 +105,36 @@ function Playlist({ playlistID }) {
 
   return (
     <div style={containerStyles}>
-      <div>
-        {songs.map((song) => (
-          <div key={song.id} style={songContainerStyles}>
-            <img style={{borderRadius: '10px'}} width="250" height="250" src={`/media/${song.image}`} alt="Cover"/>
-            <h3 style={songTitleStyles}>
-              {song.name} - {song.artist}
-            </h3>
-            <audio
-              controls
-              src={`/media/${song.file}`}
-              style={audioStyles}
-              data-song-id={song.id}
-              onPlay={() => handlePlay(song.id)}
-            ></audio>
+      {songs.map((song) => (
+        <div key={song.id} style={songContainerStyles}>
+          <img style={{ borderRadius: '10px' }} width="250" height="250" src={`/media/${song.image}`} alt="Cover" />
+          <h3 style={songTitleStyles}>
+            {song.name} - {song.artist}
+          </h3>
+          <audio
+            controls
+            src={`/media/${song.file}`}
+            style={audioStyles}
+            data-song-id={song.id}
+            onPlay={() => handlePlay(song.id)}
+          ></audio>
+          <div>
+            <div style={{ marginBottom: '10px' }}>
+              <span style={{ fontWeight: 'bold', marginRight: '5px' }}>{song.plays}</span>
+              Plays
+            </div>
+            <div style={{ marginBottom: '10px' }}>
+              <span style={{ fontWeight: 'bold', marginRight: '5px' }}>{song.likes}</span>
+              Likes
+            </div>
             <div>
-              <div style={{ marginBottom: '10px' }}>
-                <span style={{ fontWeight: 'bold', marginRight: '5px' }}>{song.plays}</span>
-                Plays
-              </div>
-              <div style={{ marginBottom: '10px' }}>
-                <span style={{ fontWeight: 'bold', marginRight: '5px' }}>{song.likes}</span>
-                Likes
-              </div>
-              <div>
-                <button onClick={() => handleLike(song.id)} style={likeButtonStyles}>
-                  {likedSongs.includes(song.id) ? 'Unlike' : 'Like'}
-                </button>
-                
-              </div>
+              <button onClick={() => handleLike(song.id)} style={likeButtonStyles}>
+                {likedSongs.includes(song.id) ? 'Unlike' : 'Like'}
+              </button>
             </div>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   );
 }
