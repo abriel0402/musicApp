@@ -1,7 +1,9 @@
-import { useRef} from "react";
+import { useRef, useState } from "react";
 import axios from "axios";
 
+
 function Search() {
+  const [songs, setSongs] = useState([])
 
 
   const input = useRef(null);
@@ -45,13 +47,14 @@ function Search() {
 
   const buttonStyles = {
     padding: "8px 16px",
-    background: "#4caf50",
+    background: "#a742f5",
     color: "white",
     border: "none",
     borderRadius: "5px",
     cursor: "pointer",
     fontSize: "16px",
     marginLeft: "10px", 
+    textDecoration: "none",
   };
 
 
