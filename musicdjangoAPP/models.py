@@ -6,9 +6,9 @@ class Song(models.Model):
     likes = models.IntegerField()
     artist = models.CharField(max_length=25)
     name = models.CharField(max_length=25) 
-    file = models.FileField(upload_to="songs/")
+    file = models.URLField()
     uploaderID = models.IntegerField()
-    image = models.ImageField(blank=True, null=True, upload_to="images/")
+    image = models.URLField()
 
 
     def __str__(self):

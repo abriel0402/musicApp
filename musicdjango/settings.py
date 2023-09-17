@@ -120,7 +120,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'musicreact/build/static'),
@@ -132,6 +132,27 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# settings.py
+DEFAULT_FILE_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
+SONG_IMAGES_BUCKET_NAME = "song_images"
+AUDIO_FILES_BUCKET_NAME = "audio_files42"
+
+
+
+
+key_file_path = os.path.join(os.path.dirname(__file__), 'glassy-filament-399219-64db1227c2a0.json')
+
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = key_file_path
+
+
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+MEDIA_URL = "/media/"
+
+
+
+AUDIO_FILES_STATIC_URL = 'https://storage.googleapis.com/audio_files42/static/'
+AUDIO_FILES_MEDIA_URL = 'https://storage.googleapis.com/audio_files42/media/'
+
+
+SONG_IMAGES_STATIC_URL = 'https://storage.googleapis.com/song_images/static/'
+SONG_IMAGES_MEDIA_URL = 'https://storage.googleapis.com/song_images/media/'

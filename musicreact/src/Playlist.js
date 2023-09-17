@@ -107,13 +107,13 @@ function Playlist({ playlistID }) {
     <div style={containerStyles}>
       {songs.map((song) => (
         <div key={song.id} style={songContainerStyles}>
-          <img style={{ borderRadius: '10px' }} width="250" height="250" src={`/media/${song.image}`} alt="Cover" />
+          <img style={{ borderRadius: '10px' }} width="250" height="250" src={song.image} alt="Cover" />
           <h3 style={songTitleStyles}>
             {song.name} - {song.artist}
           </h3>
           <audio
             controls
-            src={`/media/${song.file}`}
+            src={song.file}
             style={audioStyles}
             data-song-id={song.id}
             onPlay={() => handlePlay(song.id)}

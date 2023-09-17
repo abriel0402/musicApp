@@ -4,31 +4,53 @@ from musicdjangoAPP.models import *
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import jwt
-
+from google.cloud import storage
 
 BROWSE_SONGS = 10 # how many songs to show in 'browse'
 
-
+SONG_IMAGES_BUCKET_NAME = "song_images"
+AUDIO_FILES_BUCKET_NAME = "audio_files42"
 
 def index(request):
     return render(request, 'index.html')
 
 @csrf_exempt
 def songs(request):
-    
+
     if request.method == "POST":
         print(request.FILES.get('file'))
         name = request.POST.get('name')
         artist = request.POST.get('artist')
         file = request.FILES.get('file')
+        print("FILE NAME:" + file.name)
         image = request.FILES.get('image')
+        
+        print("IMG NAME:" + image.name)
         uploaderID = request.POST.get("uploaderID")
-        song = Song(name=name, artist=artist, plays=0, likes=0, file=file, uploaderID=uploaderID, image=image)
+
+        audioFileURL = f'https://storage.googleapis.com/audio_files42/{file.name}'
+        imageURL = f'https://storage.googleapis.com/song_images/{image.name}'
+        
+        song = Song(name=name, artist=artist, plays=0, likes=0, file=audioFileURL, uploaderID=uploaderID, image=imageURL)
         song.save()
-        print(song.name)
-        print(song.artist)
-        print(song.file)
+
+        try:
+            uploadToBucket(file, "audio_files42")
+            uploadToBucket(image, "song_images")
+        except Exception as e:
+            print("Error uploading to bucket:", e)
+
+
     return render(request, 'index.html')
+
+@csrf_exempt
+def uploadToBucket(file, bucketName):
+    print("bn:" + bucketName)
+    client = storage.Client()
+    bucket = client.get_bucket(bucketName)
+    blob = bucket.blob(file.name)
+    blob.upload_from_file(file)
+    blob.make_public()
 
 def songUploadPage(request):
     return render(request, 'index.html')
